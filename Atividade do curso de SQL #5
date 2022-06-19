@@ -1,0 +1,88 @@
+-- (1)comandos em letras maiúsculas --
+DROP DATABASE IF EXISTS aula_banco; 	
+CREATE DATABASE aula_banco; 		
+USE aula_banco; 	
+
+-- (2)nome de elementos que definimos em letras minúsculas --
+SELECT @@version, @@version_compile_os, @@lower_case_table_names; 
+
+-- tabela sem aplicar a padronização --
+CREATE TABLE EsTaDo(
+id INT NOT NULL AUTO_INCREMENT
+,nome VARCHAR(200) NOT NULL UNIQUE  
+,sigla CHAR(2) NOT NULL UNIQUE
+,ativo ENUM('S','N') NOT NULL DEFAULT 'S'
+,data_cadastro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+,CONSTRAINT pk_estado PRIMARY KEY (id)  
+);
+  
+INSERT INTO estado (nome,sigla) VALUES ('POSSE','GO');
+SELECT * FROM estado;
+SELECT * FROM ESTADO; 
+SELECT * FROM Estado; 
+SELECT * FROM EsTaDo; 
+
+DROP TABLE EsTaDo; 
+
+CREATE TABLE estado( 
+id INT NOT NULL AUTO_INCREMENT
+,nome VARCHAR(200) NOT NULL UNIQUE  
+,sigla CHAR(2) NOT NULL UNIQUE
+,ativo ENUM('S','N') NOT NULL DEFAULT 'S'
+,data_cadastro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+,CONSTRAINT pk_estado PRIMARY KEY (id)  
+);
+
+INSERT INTO estado (nome,sigla) VALUES ('POSSE','GO'); 	
+SELECT * FROM estado; 		
+
+-- (3)nome composto - tudo em minúsculo separado por "" --
+CREATE TABLE categoria_produto(
+id INT AUTO_INCREMENT
+,nome VARCHAR(255) NOT NULL UNIQUE
+,descrição VARCHAR(255) NOT NULL
+,data_cadastro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+,CONSTRAINT pk_categoria_produto PRIMARY KEY (id)
+);
+
+-- (4) nome colunas sem o nome de tabela --
+DROP TABLE estado;
+
+CREATE TABLE estado( 
+id_estado INT NOT NULL AUTO_INCREMENT
+,nome_estado VARCHAR(200) NOT NULL UNIQUE  
+,sigla_estado CHAR(2) NOT NULL UNIQUE
+,ativo_estado ENUM('S','N') NOT NULL DEFAULT 'S'
+,data_cadastro_estado DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+,CONSTRAINT pk_estado PRIMARY KEY (id)  
+);
+
+SELECT nome_estado FROM estado; -- usando o nome da tabela na coluna --
+
+DROP TABLE estado;
+CREATE TABLE estado( 
+id INT NOT NULL AUTO_INCREMENT
+,nome VARCHAR(200) NOT NULL UNIQUE  
+,sigla CHAR(2) NOT NULL UNIQUE
+,ativo ENUM('S','N') NOT NULL DEFAULT 'S'
+,data_cadastro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+,CONSTRAINT pk_estado PRIMARY KEY (id)  
+);
+
+SELECT estado.nome FROM estado; -- usando o ponto final fica melhor --
+
+-- (5) definir constraints nomeadas de PK, FK e regras específicas do projeto --
+CREATE TABLE cidade (
+id INT NOT NULL AUTO_INCREMENT
+,nome VARCHAR(200)  NOT NULL
+,ativo ENUM('S','N') NOT NULL DEFAULT 'S' 
+,data_cadastro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+,estado_id INT NOT NULL 
+,CONSTRAINT pk_cidade PRIMARY KEY (id)						
+,CONSTRAINT fk_cidade_estado FOREIGN KEY (estado_id) REFERENCES estado (id)	
+,CONSTRAINT cidade_unica UNIQUE(nome, estado_id)				
+);
+
+-- (6) valores de inserções em letras maiúsculas --
+INSERT INTO estado (nome,sigla) VALUES ('POSSE','GO'); 
+SELECT * FROM estado WHERE nome = 'POSSE';
