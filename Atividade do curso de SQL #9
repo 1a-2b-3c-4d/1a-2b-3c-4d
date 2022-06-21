@@ -1,0 +1,114 @@
+
+Responda as questões:
+01 - O que é JOIN? Quando é necessário?
+R: Recurso utilizado para consultas de mais de uma tabela. Necessário para criar informações onde os dados estão em tabelas distintas.
+
+02 - Qual a sintaxe do JOIN? Maiúscula ou minúscula faz diferença? Existe algum padrão? Explique.
+R: 
+Em banco de dados não há padrões definidos ou distinção entre letras maiúscula e minúscula. 
+Porém, é importante que se adote um padrão.
+-- Padrão SQL89
+SELECT * ou nome colunas 
+FROM nome_tabela1, nome_tabela2 
+WHERE coluna_pk = coluna_fk;
+-- Padrão SQL92
+SELECT * ou nome colunas 
+FROM nome_tabela1 
+INNER JOIN nome_tabela2 ON coluna_pk = coluna_fk;
+
+04 - O que é primordial para que o resultado tenha sentido em consultas com JOIN? Explique.
+R:
+A condição de junção, a comparação do identificador de uma tabela e a sua referência na tabela que será juntada.
+Sem a condição de junção, todos os registros serão combinados, gerando um resultado com a semântica indesejada.
+
+05 - Existe mais de uma maneira de realizar o JOIN? Quantas? Qual é a mais eficiente? 
+R:
+Sim, existem duas formas: o padrão SQL89 e o SQL92. Atualmente, não há diferença em funcionamento ou desempenho entre os dois padrões. 
+
+06 - Para realizar o JOIN de 1523 tabelas, quantas comparações de junções são necessárias? Explique.
+R:
+Serão necessárias 1522 comparações de junções. Para cada duas tabelas é necessário uma comparação de junção.
+
+07 - O que é análise semântica e de sintaxe? Qual a diferença? Para que serve?
+R:
+A sintaxe se refere à escrita correta de um comando. Conjuntos de palavras permitidas, bem como, a ordem que é definida.
+A semântica enfatiza a interpretação de um comando para que se possa projetar o resultado desejado.
+Geralmente, os erros de sintaxe são identificados pelo editor de código, enquanto que a sintaxe depende do profissional do BD. 
+A semântica errada pode gerar grandes problemas, visto que, são erros não identificáveis pela IDE e assim, pode gerar resultados parcial ou totalmente errados – trazendo possíveis prejuízos à empresa.
+
+08 - Em uma consulta com JOIN, há casos em que seja necessário atribuir o nome da tabela na projeção das colunas? Explique.
+R:
+Sim, quando se projeta uma coluna no resultado, na qual, o nome é igual em mais que uma tabela envolvida – é necessário para que o BD consiga entender qual coluna será projetada. 
+
+09 - De acordo com o estudo de caso, cite 4 exemplos em que seja possível utilizar o JOIN e 3 exemplos que não seja possível realizar o JOIN.
+R:
+Junções possíveis: estado e cidade, cidade e fornecedor, compra e icompra, recebimento e icaixa.
+Junções impossíveis: estado e cliente, venda e compra, recebimento e pagamento.
+
+Conforme o estudo de caso, elabore as consultas solicitadas abaixo: 
+obs: Para cada questão utilize o padrão SQL89 e SQL92 
+
+
+01 - Liste o id e o nome de todas as cidades e as respectivas siglas do estado. 
+-- SQL89
+SELECT cidade.id, cidade.nome, sigla
+FROM cidade, estado
+WHERE estado.id = estado_id;
+
+-- SQL92
+SELECT cidade.id, cidade.nome, sigla
+FROM estado
+INNER JOIN cidade ON estado.id = estado_id;
+
+
+02 - Em relação ao resultado do exercício anterior, note que os nomes das colunas não estão claras. Refaça o comando para que torne mais claras. 
+-- SQL89
+SELECT 
+	cidade.id 'código cidade'
+	, cidade.nome 'nome cidade'
+	, sigla 'sigla estado'
+FROM cidade, estado
+WHERE estado.id = estado_id;
+
+-- SQL92
+SELECT 
+	cidade.id 'código cidade'
+	, cidade.nome 'nome cidade'
+	, sigla 'sigla estado'
+FROM estado
+INNER JOIN cidade ON estado.id = estado_id;
+
+03 - Refaça o exercício anterior atribuindo o nome completo da tabela em todos os atributos. 
+-- SQL89
+SELECT 
+	cidade.id 'código cidade'
+	, cidade.nome 'nome cidade'
+	, estado.sigla 'sigla estado'
+FROM cidade, estado
+WHERE estado.id = cidade.estado_id;
+
+-- SQL92
+SELECT 
+	cidade.id 'código cidade'
+	, cidade.nome 'nome cidade'
+	, estado.sigla 'sigla estado'
+FROM estado
+INNER JOIN cidade ON estado.id = cidade.estado_id;
+
+04 - Refaça o exercício anterior definindo o apelido na tabela.
+-- SQL89
+SELECT 
+	c.id 'código cidade'
+	, c.nome 'nome cidade'
+	, e.sigla 'sigla estado'
+FROM cidade c, estado e
+WHERE e.id = c.estado_id;
+
+-- SQL92
+SELECT 
+	c.id 'código cidade'
+	, c.nome 'nome cidade'
+	, e.sigla 'sigla estado'
+FROM estado e
+INNER JOIN cidade c ON e.id = c.estado_id;
+
