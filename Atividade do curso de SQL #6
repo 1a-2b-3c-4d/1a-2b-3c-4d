@@ -1,0 +1,46 @@
+DROP DATABASE IF EXISTS aula_banco; 
+CREATE DATABASE aula_banco; 		
+USE aula_banco;						
+
+CREATE TABLE estado( 				
+id INT NOT NULL AUTO_INCREMENT
+,nome VARCHAR(200) NOT NULL UNIQUE  
+,sigla CHAR(2) NOT NULL UNIQUE
+,ativo ENUM('S','N') NOT NULL DEFAULT 'S'
+,data_cadastro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+,CONSTRAINT pk_estado PRIMARY KEY (id)  
+);
+
+CREATE TABLE cidade (			
+id INT NOT NULL AUTO_INCREMENT
+,nome VARCHAR(200)  NOT NULL
+,ativo ENUM('S','N') NOT NULL DEFAULT 'S'
+,data_cadastro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+,estado_id INT NOT NULL 
+,CONSTRAINT pk_cidade PRIMARY KEY (id)
+,CONSTRAINT fk_cidade_estado FOREIGN KEY (estado_id) REFERENCES estado (id)
+,CONSTRAINT cidade_unica UNIQUE(nome, estado_id)
+);
+
+-- Questão 05 --
+INSERT INTO estado (id,nome,sigla,ativo,data_cadastro)
+VALUES (4,'PARANÁ','PR','S','2022-06-16') , (5,'SÃO PAULO','SP','S','2022-06-16') , (6,'GOIÁS','GO','S','2022-06-16');
+ 
+-- Questão 06 --
+INSERT INTO estado (id,nome,sigla,ativo,data_cadastro)
+VALUES  (DEFAULT,'AMAZONAS','AM','S','2022-06-16') , (DEFAULT,'ESPÍRITO SANTO','ES','S','2022-06-16'); 
+
+-- Questão 07 --
+INSERT INTO estado (nome,sigla) VALUES ('MATO GROSSO','MT') , ('GOIANIA','GO') ; 
+
+-- Questão 08 --
+INSERT INTO cidade (id,nome,ativo,data_cadastro,estado_id)
+VALUES (4,'RIO BRANCO','S','2022-06-16',3) , (5,'CURITIBA','S','2022-06-16',4) , (6,'CAMPINAS','S','2022-06-16',5);
+
+INSERT INTO cidade (id,nome,ativo,data_cadastro,estado_id)
+VALUES  (DEFAULT,'POSSE','S','2022-06-16',6) , (DEFAULT,'MANAUS','S','2022-06-16',7); 
+
+INSERT INTO cidade (nome,estado_id) VALUES ('SANTA MARIA','8') , ('ALAGOINHAS','9') ; 
+
+-- Questão 09 --
+INSERT INTO cliente (id,nome) VALUES (1,'LARISSA') , (2,'LUAN') ;
