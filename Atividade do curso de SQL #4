@@ -1,0 +1,56 @@
+-- AGORA É A SUA VEZ!!!! Para que você aprenda, é muito importante que não copie e cole, digite os comandos e mentalize o que está fazendo na medida que digita cada comando. Uma dica importante é que você digite primeiro no bloco de notas, com intuito de testar se realmente consegue digitar os comandos sem a ajuda do IDE – depois teste os comandos. --
+
+-- Questão 9 --	
+-- Escreva o comando para alterar o valor de uma coluna de um único registro de uma tabela utilizando como filtro, o Primary Key. --
+-- SQL89
+SELECT 
+	funcionario.nome
+FROM funcionario , cidade , estado 
+WHERE estado.id = cidade.estado_id
+	AND cidade.id = funcionario.cidade_id
+	AND estado.nome = 'PARANÁ';
+
+-- SQL92
+SELECT 
+	funcionario.nome
+FROM estado 
+INNER JOIN cidade  ON estado.id = cidade.estado_id 
+INNER JOIN funcionario  ON cidade.id = funcionario.cidade_id
+WHERE estado.nome = 'PARANÁ';
+
+-- Questão 10 --	
+-- Refaça o exercício anterior alterando os dados de mais que uma coluna de um único registro sem utilizar como filtro a chave primária. A escolha da coluna do filtro é muito importante – TOME CUIDADO. --
+
+-- SQL89
+SELECT 
+	fornecedore.nome, fornecedor.fone, fornecedor.fone_segundario
+FROM fornecedor , cidade 
+WHERE 
+	cidade.id = fornecedor.cidade_id
+	AND c.nome = 'SÃO PAULO';
+-- SQL92
+SELECT 
+	fornecedor.nome, fornecedor.fone, fornecedor.fone_segundario 
+FROM cidade 
+INNER JOIN fornecedor  ON cidade.id = fornecedor.cidade_id
+WHERE cidade.nome = 'SÃO PAULO';
+
+-- Questão 11 --
+-- Altere o valor de uma coluna de todos os registros. --
+UPDATE cidade SET
+nome = 'BLUMENAL'
+, estado_id = 39
+, ativo = 'N'
+, data_cadastro = '2022-06-15'
+WHERE id = 20;
+
+SELECT * FROM cidade WHERE id = 20;
+
+-- Questão 12 --
+-- Exclua um único registro de uma tabela sem utilizar como filtro, a chave primária.--
+DELETE FROM estado WHERE nome = 'PARANÁ';
+
+-- Questão 13 --	
+-- Escreva todos os comandos necessários para excluir o cliente com o id “38”. --
+DELETE FROM cliente WHERE id = 38;
+
